@@ -7,3 +7,12 @@ node_modules/*
 *.xml
 *.xml
 .idea/vcs.xml
+backend/package-lock.json
+backend/node_modules
+
+backend/.env
+admin/node_modules
+admin/eslint.config.js
+admin/package-lock.json
+admin/postcss.config.js
+admin/README.md
