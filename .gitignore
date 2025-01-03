@@ -16,3 +16,4 @@ admin/eslint.config.js
 admin/package-lock.json
 admin/postcss.config.js
 admin/README.md
+admin/.env
