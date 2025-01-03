@@ -49,6 +49,7 @@ const Add = ({token}) => {
                 setImage3(false);
                 setImage4(false);
                 setPrice('');
+                setQuantity([])
             } else {
                 toast.error(response.data.message);
             }
@@ -116,7 +117,8 @@ const Add = ({token}) => {
                             <option value='vegetables'>Vegetables</option>
                             <option value='dairy_products'>Dairy Products</option>
                             <option value='eggs'>Eggs</option>
-                            <option value='Seafood'>Winterwear</option>
+                            <option value='meat'>Meat</option>
+                            <option value='Seafood'>Seafood</option>
                             <option value='rice'>Rice</option>
                             <option value='flour_baking'>Flour and Baking Supplies</option>
                             <option value='pasta_noodles'>Pasta & Noodles</option>

@@ -106,6 +106,10 @@ const Collection = () => {
                                    onChange={toggleSubCategory}/> Eggs
                         </p>
                         <p className='flex gap-2'>
+                            <input className='w-3' type='checkbox' value={'meat'}
+                                   onChange={toggleSubCategory}/> Meat
+                        </p>
+                        <p className='flex gap-2'>
                             <input className='w-3' type='checkbox' value={'seafood'}
                                    onChange={toggleSubCategory}/> Seafood
                         </p>
@@ -151,8 +155,8 @@ const Collection = () => {
 
             {/* Map Products */}
             <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 gap-y-6'>
-            {
-                        filterProducts.map((item, index) => (
+                {
+                    filterProducts.map((item, index) => (
                             <ProductItem key={index} name={item.name} id={item._id} price={item.price} image={item.image} />
                         ))
                     }
