@@ -13,7 +13,7 @@ export const backendUrl = import.meta.env.VITE_BACKEND_URL;
 export const currency = '৳'
 
 const App = () => {
-    const [token, setToken] = useState(localStorage.getItem("token") ? localStorage.getItem("token") : "");
+    const [token, settoken] = useState(localStorage.getItem("token") ? localStorage.getItem("token") : "");
 
     useEffect(() => {
         localStorage.setItem('token', token);
@@ -24,10 +24,10 @@ const App = () => {
             <ToastContainer />
             {
                 token === ''
-                ? <Login setToken={setToken} />
+                ? <Login settoken={settoken} />
                 :
                     <>
-                        <Navbar setToken={setToken} />
+                        <Navbar settoken={settoken} />
                         <hr/>
                         <div className='flex w-full'>
                             <Sidebar />

@@ -16,11 +16,11 @@ const Add = ({token}) => {
     const [price, setPrice] = useState("");
     const [category, setCategory] = useState("Men");
     const [subCategory, setSubCategory] = useState("Topwear");
-    const [bestSeller, setBestSeller] = useState(false);
+    const [bestseller, setbestseller] = useState(false);
     const [sizes, setSizes] = useState([]);
 
-    const onSubmitHandler = async (event) => {
-        event.preventDefault();
+    const onSubmitHandler = async (e) => {
+        e.preventDefault();
 
         try {
             const formData = new FormData();
@@ -30,7 +30,7 @@ const Add = ({token}) => {
             formData.append("price", price);
             formData.append("category", category);
             formData.append("subCategory", subCategory);
-            formData.append("bestSeller", bestSeller);
+            formData.append("bestseller", bestseller);
             formData.append("sizes", JSON.stringify(sizes));
 
             image1 && formData.append('image1', image1);
@@ -44,11 +44,11 @@ const Add = ({token}) => {
                 toast.success(response.data.message);
                 setName('');
                 setDescription('');
-                setPrice('');
                 setImage1(false);
                 setImage2(false);
                 setImage3(false);
                 setImage4(false);
+                setPrice('');
             } else {
                 toast.error(response.data.message);
             }
@@ -124,7 +124,7 @@ const Add = ({token}) => {
                 <div>
                     <p className='mb-2'>Product Sizes</p>
                     <div className='flex gap-3'>
-                        <div onClick={()=>setSizes(prev => prev.includes('S') ? prev.filter(item  => item !== 'S') : [...prev, 'S'])}>
+                        <div onClick={()=>setSizes((prev) => prev.includes('S') ? prev.filter((item)  => item !== 'S') : [...prev, 'S'])}>
                             <p className={`${sizes.includes('S') ? 'bg-green-200' : 'bg-slate-200'} px-3 py-1 cursor-pointer`}>S</p>
                         </div>
                         <div onClick={()=>setSizes(prev => prev.includes('M') ? prev.filter(item  => item !== 'M') : [...prev, 'M'])}>
@@ -143,7 +143,7 @@ const Add = ({token}) => {
                 </div>
 
                 <div className='flex gap-2 mt-2'>
-                    <input onChange={()=> setBestSeller(prev => !prev)} checked={bestSeller} type='checkbox' id='bestseller'/>
+                    <input onChange={()=> setbestseller((prev) => !prev)} checked={bestseller} type='checkbox' id='bestseller'/>
                     <label className='cursor-pointer' htmlFor='bestseller'>Add to bestseller</label>
                 </div>
 
