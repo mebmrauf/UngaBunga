@@ -12,7 +12,10 @@ const OurPolicy = () => {
             <div>
                 <img src={assets.quality_icon} className='w-12 m-auto mb-5 ' alt=""/>
                 <p className='font-semibold'>7 Days Return Policy</p>
-                <p className='text-gray-400'>We offer 7 days return policy</p>
+                <p className="text-gray-400">
+                    We offer a 7-day return policy.<br/>
+                    <span className="text-xs text-gray-400 "> (*Terms and conditions apply)</span>
+                </p>
             </div>
             <div>
                 <img src={assets.support_img} className='w-12 m-auto mb-5 ' alt=""/>
@@ -23,4 +26,4 @@ const OurPolicy = () => {
 )
 }
 
-export default OurPolicy
+export default OurPolicy;
