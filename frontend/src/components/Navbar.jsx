@@ -1,4 +1,4 @@
-import {assets} from "../assets/frontend_assets/assets.js";
+import {assets} from "../assets/assets.js";
 
 import {Link, NavLink} from "react-router-dom";
 import {useContext, useState} from "react";

@@ -1,4 +1,4 @@
-import {assets} from "../assets/frontend_assets/assets.js";
+import {assets} from "../assets/assets.js";
 
 const OurPolicy = () => {
     return (

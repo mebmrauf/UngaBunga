@@ -60,7 +60,6 @@ const List = ({token}) => {
                     list.map((item, index) => (
                         <div className='grid grid-cols-[1fr_3fr_1fr] md:grid-cols-[1fr_3fr_1fr_1fr_1fr] items-center gap-2 py-1 px-2 border text-sm' key={index}>
                             <img className='w-12' src={item.image[0]} alt=''/>
-
                             <p>{item.name}</p>
                             <p>{item.category}</p>
                             <p>{item.description}</p>

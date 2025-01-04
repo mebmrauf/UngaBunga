@@ -1,4 +1,4 @@
-import {assets} from "../assets/admin_assets/assets.js";
+import {assets} from "../assets/assets.js";
 import {useState} from "react";
 import axios from "axios";
 import {backendUrl} from "../App.jsx";
