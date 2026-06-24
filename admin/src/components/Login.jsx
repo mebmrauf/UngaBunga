@@ -1,6 +1,5 @@
 import {useState} from "react";
-import {backendUrl} from "../App.jsx";
-import axios from "axios";
+import axiosInstance from "../utils/axiosInstance.js";
 import {toast} from "react-toastify";
 
 const Login = ({settoken}) => {
@@ -11,7 +10,7 @@ const Login = ({settoken}) => {
     const onSubmitHandler = async (e) => {
         try {
             e.preventDefault();
-            const response = await axios.post(backendUrl + '/api/user/admin', {email, password});
+            const response = await axiosInstance.post('/api/user/admin', {email, password});
             if (response.data.success) {
                 settoken(response.data.token);
             } else {

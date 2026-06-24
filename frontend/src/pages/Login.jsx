@@ -1,12 +1,12 @@
 import {useContext, useEffect, useState} from "react";
 import {ShopContext} from "../context/ShopContext.jsx";
-import axios from "axios";
+import axiosInstance from "../utils/axiosInstance.js";
 import {toast} from "react-toastify";
 
 const Login = () => {
 
     const [currentState, setCurrentState] = useState('Login');
-    const {token, settoken, backendUrl, navigate} = useContext(ShopContext);
+    const {token, settoken, navigate} = useContext(ShopContext);
 
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
@@ -17,7 +17,7 @@ const Login = () => {
         event.preventDefault();
         try {
             if (currentState === 'Sign Up') {
-                const response = await axios.post(backendUrl + '/api/user/register', {name, email, password})
+                const response = await axiosInstance.post('/api/user/register', {name, email, password})
                 if (response.data.success) {
                     settoken(response.data.token)
                     localStorage.setItem("token", response.data.token);
@@ -26,7 +26,7 @@ const Login = () => {
                 }
             } else {
 
-                const response = await axios.post(backendUrl + '/api/user/login', {email, password})
+                const response = await axiosInstance.post('/api/user/login', {email, password})
                 if (response.data.success) {
                     settoken(response.data.token)
                     localStorage.setItem("token", response.data.token);
