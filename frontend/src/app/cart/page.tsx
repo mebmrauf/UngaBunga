@@ -82,13 +82,13 @@ export default function GroceryList() {
         
         <div className="divide-y divide-slate-100">
           {items.map((item, idx) => (
-            <div key={item.id} className={`px-6 py-4 flex items-center justify-between transition ${item.checked ? 'opacity-50 bg-slate-50' : 'hover:bg-green-50'}`}>
+            <div key={item.id} className={`px-6 py-4 flex items-center justify-between transition ${item.checked ? 'opacity-50 bg-slate-50' : 'hover:bg-orange-50'}`}>
               <div className="flex items-center gap-4">
                 <input 
                   type="checkbox" 
                   checked={!item.checked} 
                   onChange={() => toggleCheck(idx)}
-                  className="w-6 h-6 rounded-md text-green-600 focus:ring-green-500 cursor-pointer accent-green-600"
+                  className="w-6 h-6 rounded-md text-orange-600 focus:ring-orange-500 cursor-pointer accent-orange-600"
                 />
                 <div>
                   <h3 className={`font-bold text-lg ${item.checked ? 'text-slate-500 line-through' : 'text-gray-900'}`}>{item.name}</h3>
@@ -96,7 +96,7 @@ export default function GroceryList() {
                 </div>
               </div>
               <div className="text-right">
-                <p className={`font-bold text-lg ${item.checked ? 'text-slate-400' : 'text-green-600'}`}>৳{item.priceEstimate}</p>
+                <p className={`font-bold text-lg ${item.checked ? 'text-slate-400' : 'text-orange-600'}`}>৳{item.priceEstimate}</p>
                 <p className="text-xs text-gray-400">Est. price</p>
               </div>
             </div>
@@ -104,15 +104,15 @@ export default function GroceryList() {
         </div>
       </div>
 
-      <div className="bg-green-50 rounded-3xl p-6 border border-green-100 flex flex-col md:flex-row justify-between items-center gap-6">
+      <div className="bg-orange-50 rounded-3xl p-6 border border-orange-100 flex flex-col md:flex-row justify-between items-center gap-6">
         <div>
-          <h3 className="text-lg font-bold text-gray-800">Total Estimate: <span className="text-2xl text-green-600">৳{total}</span></h3>
-          <p className="text-sm text-green-700 font-medium">+ Delivery & Service Fees will apply</p>
+          <h3 className="text-lg font-bold text-gray-800">Total Estimate: <span className="text-2xl text-orange-600">৳{total}</span></h3>
+          <p className="text-sm text-orange-700 font-medium">+ Delivery & Service Fees will apply</p>
         </div>
         <button 
           onClick={handlePlaceOrder}
           disabled={total === 0}
-          className="w-full md:w-auto bg-green-600 text-white px-8 py-3.5 rounded-full font-bold text-lg shadow-md hover:bg-green-700 transition disabled:opacity-50"
+          className="w-full md:w-auto bg-orange-600 text-white px-8 py-3.5 rounded-full font-bold text-lg shadow-md hover:bg-orange-700 transition disabled:opacity-50"
         >
           Checkout Items
         </button>

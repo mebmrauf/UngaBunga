@@ -4,8 +4,8 @@ import Providers from "../components/Providers";
 import AppWrapper from "../components/AppWrapper";
 
 export const metadata: Metadata = {
-  title: "Admin Panel | Greenora",
-  description: "Greenora Admin Dashboard",
+  title: "Admin Panel | Khabari",
+  description: "Khabari Admin Dashboard",
 };
 
 export default function RootLayout({

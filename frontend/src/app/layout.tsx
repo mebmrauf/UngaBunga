@@ -9,9 +9,9 @@ export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 export const metadata: Metadata = {
-  title: "Greenora — Fresh Groceries Delivered",
+  title: "Khabari — Fresh Groceries Delivered",
   description: "Shop fresh groceries, daily essentials, and more. Fast delivery to your door.",
-  keywords: ["grocery", "fresh produce", "online grocery", "Greenora"],
+  keywords: ["grocery", "fresh produce", "online grocery", "Khabari"],
 };
 
 export default function RootLayout({

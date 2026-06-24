@@ -39,12 +39,12 @@ export default function Login() {
     <div className="min-h-screen flex items-center justify-center bg-slate-50 px-4">
       <div className="w-full max-w-md">
         <div className="glass overflow-hidden">
-          <div className="bg-green-600 px-8 py-10 text-center">
+          <div className="bg-orange-600 px-8 py-10 text-center">
             <div className="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center mx-auto mb-4 text-4xl">
               🛡️
             </div>
             <h1 className="text-2xl font-bold text-white">Admin Portal</h1>
-            <p className="text-green-100 text-sm mt-1">Sign in to manage Greenora</p>
+            <p className="text-orange-100 text-sm mt-1">Sign in to manage Khabari</p>
           </div>
           <form onSubmit={onSubmitHandler} className="px-8 py-8 space-y-5">
             <div>

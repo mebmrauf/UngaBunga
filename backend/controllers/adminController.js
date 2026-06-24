@@ -37,9 +37,33 @@ const getAllRecipes = asyncHandler(async (req, res) => {
     res.json({ success: true, recipes });
 });
 
+import notificationModel from "../models/notificationModel.js";
+
 const updateRecipeStatus = asyncHandler(async (req, res) => {
     const { recipeId, status } = req.body;
-    await recipeModel.findByIdAndUpdate(recipeId, { status });
+    const recipe = await recipeModel.findByIdAndUpdate(recipeId, { status });
+    
+    if (recipe) {
+        // Reward points if approved
+        if (status === 'Approved' && recipe.status !== 'Approved') {
+            await userModel.findByIdAndUpdate(recipe.author, { $inc: { points: 50 } });
+        }
+        
+        // Create Notification
+        const notification = new notificationModel({
+            user: recipe.author,
+            message: `Your recipe "${recipe.title}" has been ${status.toLowerCase()}!`,
+            type: 'recipe'
+        });
+        await notification.save();
+
+        // Emit via Socket.io
+        const io = req.app.get('io');
+        if (io) {
+            io.to(recipe.author.toString()).emit('newNotification', notification);
+        }
+    }
+
     res.json({ success: true, message: "Recipe status updated" });
 });
 

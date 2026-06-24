@@ -2,6 +2,8 @@ import orderModel from "../models/orderModel.js";
 import cartModel from "../models/cartModel.js";
 import asyncHandler from "../utils/asyncHandler.js";
 
+import userModel from "../models/userModel.js";
+
 // Placing orders using COD Method (from Cart)
 const placeOrder = asyncHandler(async (req, res) => {
     const { address, cartId } = req.body;
@@ -37,11 +39,12 @@ const placeOrder = asyncHandler(async (req, res) => {
     const subOrders = Array.from(storeMap.values());
     const deliveryFee = 60; // Example
     const serviceFee = 20;
+    const finalAmount = totalItemsPrice + deliveryFee + serviceFee;
 
     const newOrder = new orderModel({
         user: req.user._id,
         subOrders,
-        totalAmount: totalItemsPrice + deliveryFee + serviceFee,
+        totalAmount: finalAmount,
         deliveryFee,
         serviceFee,
         address,
@@ -53,6 +56,11 @@ const placeOrder = asyncHandler(async (req, res) => {
 
     // Clear cart or delete it
     await cartModel.findByIdAndDelete(cartId);
+
+    // Reward points: 5 points if order is >= 1000 tk
+    if (finalAmount >= 1000) {
+        await userModel.findByIdAndUpdate(req.user._id, { $inc: { points: 5 } });
+    }
 
     res.json({ success: true, message: "Order Placed Successfully", order: newOrder });
 });
@@ -72,10 +80,29 @@ const userOrders = asyncHandler(async (req, res) => {
     res.json({ success: true, orders });
 });
 
+import notificationModel from "../models/notificationModel.js";
+
 // Update overall order status from Admin/Delivery Panel
 const updateStatus = asyncHandler(async (req, res) => {
     const { orderId, status } = req.body;
-    await orderModel.findByIdAndUpdate(orderId, { overallStatus: status });
+    const order = await orderModel.findByIdAndUpdate(orderId, { overallStatus: status });
+    
+    if (order) {
+        // Create Notification
+        const notification = new notificationModel({
+            user: order.user,
+            message: `Your order status has been updated to: ${status}`,
+            type: 'order'
+        });
+        await notification.save();
+
+        // Emit via Socket.io
+        const io = req.app.get('io');
+        if (io) {
+            io.to(order.user.toString()).emit('newNotification', notification);
+        }
+    }
+
     res.json({ success: true, message: "Status Updated" });
 });
 

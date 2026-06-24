@@ -108,7 +108,7 @@ export default function Collection() {
                       type="checkbox"
                       checked={selectedCategories.includes(cat.value)}
                       onChange={() => toggleCategory(cat.value)}
-                      className="w-4 h-4 rounded accent-green-600 cursor-pointer"
+                      className="w-4 h-4 rounded accent-orange-600 cursor-pointer"
                     />
                     <span className="text-sm text-gray-600 group-hover:text-gray-900 transition-colors">{cat.name}</span>
                   </label>
@@ -127,7 +127,7 @@ export default function Collection() {
                         type="checkbox"
                         checked={selectedSubCategories.includes(sub.value)}
                         onChange={() => toggleSubCategory(sub.value)}
-                        className="w-4 h-4 rounded accent-green-600 cursor-pointer"
+                        className="w-4 h-4 rounded accent-orange-600 cursor-pointer"
                       />
                       <span className="text-sm text-gray-600 group-hover:text-gray-900 transition-colors">{sub.name}</span>
                     </label>
@@ -148,7 +148,7 @@ export default function Collection() {
             <select
               value={sortBy}
               onChange={e => setSortBy(e.target.value)}
-              className="text-sm border border-gray-200 rounded-xl px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-green-500 cursor-pointer"
+              className="text-sm border border-gray-200 rounded-xl px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-orange-500 cursor-pointer"
             >
               {SORT_OPTIONS.map(opt => (
                 <option key={opt.value} value={opt.value}>{opt.label}</option>

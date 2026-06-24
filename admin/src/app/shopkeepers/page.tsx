@@ -41,14 +41,14 @@ export default function Shopkeepers() {
                 <td className="p-4 text-gray-600">{shop.address}</td>
                 <td className="p-4">⭐ {shop.rating}</td>
                 <td className="p-4">
-                  <span className={`px-3 py-1 rounded-full text-xs font-bold ${shop.status === 'Active' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+                  <span className={`px-3 py-1 rounded-full text-xs font-bold ${shop.status === 'Active' ? 'bg-orange-100 text-orange-700' : 'bg-red-100 text-red-700'}`}>
                     {shop.status}
                   </span>
                 </td>
                 <td className="p-4">
                   <button 
                     onClick={() => toggleVerification(shop.id)}
-                    className={`px-4 py-1.5 rounded-lg text-sm font-bold transition ${shop.verified ? 'bg-green-600 text-white' : 'bg-gray-200 text-gray-600'}`}
+                    className={`px-4 py-1.5 rounded-lg text-sm font-bold transition ${shop.verified ? 'bg-orange-600 text-white' : 'bg-gray-200 text-gray-600'}`}
                   >
                     {shop.verified ? "Verified ✓" : "Verify"}
                   </button>

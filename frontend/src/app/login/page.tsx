@@ -8,7 +8,7 @@ import Link from "next/link";
 
 export default function Login() {
   const [mode, setMode] = useState<"login" | "signup">("login");
-  const { token, setToken, navigate } = useContext(ShopContext)!;
+  const { token, setToken, setRole, navigate } = useContext(ShopContext)!;
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -48,13 +48,13 @@ export default function Login() {
         {/* Card */}
         <div className="bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden">
           {/* Header */}
-          <div className="bg-gradient-to-br from-green-600 to-emerald-500 px-8 pt-10 pb-8 text-white text-center">
+          <div className="bg-gradient-to-br from-orange-600 to-amber-500 px-8 pt-10 pb-8 text-white text-center">
             <div className="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center mx-auto mb-4 text-3xl">
               {mode === "login" ? "👋" : "🌿"}
             </div>
             <h1 className="text-2xl font-bold">{mode === "login" ? "Welcome back!" : "Create account"}</h1>
-            <p className="text-green-100 text-sm mt-1">
-              {mode === "login" ? "Sign in to your Greenora account" : "Join Greenora today"}
+            <p className="text-orange-100 text-sm mt-1">
+              {mode === "login" ? "Sign in to your Khabari account" : "Join Khabari today"}
             </p>
           </div>
 
@@ -66,7 +66,7 @@ export default function Login() {
                 onClick={() => setMode(m)}
                 className={`flex-1 py-3.5 text-sm font-semibold transition-all duration-200 ${
                   mode === m
-                    ? "text-green-600 border-b-2 border-green-600"
+                    ? "text-orange-600 border-b-2 border-orange-600"
                     : "text-gray-500 hover:text-gray-700"
                 }`}
               >
@@ -141,7 +141,7 @@ export default function Login() {
               <button
                 type="button"
                 onClick={() => setMode(mode === "login" ? "signup" : "login")}
-                className="text-green-600 font-semibold hover:text-green-700 transition-colors"
+                className="text-orange-600 font-semibold hover:text-orange-700 transition-colors"
               >
                 {mode === "login" ? "Sign up" : "Sign in"}
               </button>
@@ -151,9 +151,9 @@ export default function Login() {
 
         <p className="text-center text-xs text-gray-400 mt-6">
           By continuing, you agree to our{" "}
-          <Link href="#" className="text-green-600 hover:underline">Terms</Link>
+          <Link href="#" className="text-orange-600 hover:underline">Terms</Link>
           {" & "}
-          <Link href="#" className="text-green-600 hover:underline">Privacy Policy</Link>
+          <Link href="#" className="text-orange-600 hover:underline">Privacy Policy</Link>
         </p>
       </div>
     </div>

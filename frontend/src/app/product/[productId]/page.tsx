@@ -58,7 +58,7 @@ export default function Product() {
                   key={i}
                   onClick={() => setSelectedImage(img)}
                   className={`w-20 h-20 rounded-xl overflow-hidden border-2 transition-all duration-200 ${
-                    selectedImage === img ? "border-green-500 shadow-md" : "border-gray-100 hover:border-gray-300"
+                    selectedImage === img ? "border-orange-500 shadow-md" : "border-gray-100 hover:border-gray-300"
                   }`}
                 >
                   <img src={img} alt="" className="w-full h-full object-cover" />
@@ -84,7 +84,7 @@ export default function Product() {
 
           <div>
             <h1 className="text-3xl font-bold text-gray-900 leading-tight">{product.name}</h1>
-            <p className="mt-3 text-4xl font-extrabold text-green-600">
+            <p className="mt-3 text-4xl font-extrabold text-orange-600">
               {currency}{product.price}
             </p>
           </div>
@@ -102,8 +102,8 @@ export default function Product() {
                     onClick={() => setSelectedQty(qty)}
                     className={`px-4 py-2 rounded-xl text-sm font-medium border-2 transition-all duration-200 ${
                       selectedQty === qty
-                        ? "border-green-600 bg-green-600 text-white shadow-sm"
-                        : "border-gray-200 text-gray-700 hover:border-green-300 hover:bg-green-50"
+                        ? "border-orange-600 bg-orange-600 text-white shadow-sm"
+                        : "border-gray-200 text-gray-700 hover:border-orange-300 hover:bg-orange-50"
                     }`}
                   >
                     {qty}

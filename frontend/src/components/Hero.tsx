@@ -3,29 +3,27 @@ import Link from "next/link";
 
 export default function Hero() {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50">
+    <section className="relative overflow-hidden bg-gradient-to-br from-orange-50 via-emerald-50 to-teal-50">
       {/* Decorative circles */}
-      <div className="absolute -top-32 -right-32 w-96 h-96 bg-green-200 rounded-full opacity-30 blur-3xl" />
+      <div className="absolute -top-32 -right-32 w-96 h-96 bg-orange-200 rounded-full opacity-30 blur-3xl" />
       <div className="absolute -bottom-24 -left-24 w-80 h-80 bg-emerald-200 rounded-full opacity-30 blur-3xl" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-28">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* Left */}
           <div className="animate-fade-in">
-            <span className="section-subtitle">🛒 Fresh & Delivered Fast</span>
+            <span className="section-subtitle">🌶️ Authentic Local Flavors</span>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gray-900 leading-tight tracking-tight mb-6">
-              Your Daily{" "}
+              From our Gram to your{" "}
               <span className="relative">
-                <span className="text-green-600">Groceries</span>
+                <span className="text-orange-600">Doorstep</span>
                 <svg className="absolute -bottom-2 left-0 w-full" height="8" viewBox="0 0 200 8" fill="none">
-                  <path d="M0 6 Q50 0 100 6 Q150 12 200 6" stroke="#16a34a" strokeWidth="3" fill="none" strokeLinecap="round" />
+                  <path d="M0 6 Q50 0 100 6 Q150 12 200 6" stroke="#ea580c" strokeWidth="3" fill="none" strokeLinecap="round" />
                 </svg>
               </span>
-              {" "}Delivered Fresh
             </h1>
             <p className="text-gray-500 text-lg leading-relaxed mb-8 max-w-lg">
-              Shop from hundreds of fresh produce, daily essentials, and specialty items. 
-              We deliver the freshest groceries straight to your door.
+              Experience the true taste of Bengal. We deliver the finest local spices, fresh river fish, sweet pithas, and everyday essentials straight to you.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link href="/collection" className="btn-primary text-center">
@@ -55,8 +53,8 @@ export default function Hero() {
           <div className="relative animate-fade-in" style={{ animationDelay: "0.15s" }}>
             <div className="relative rounded-3xl overflow-hidden shadow-2xl aspect-[4/3]">
               <img
-                src="https://images.unsplash.com/photo-1542838132-92c53300491e?w=800&q=80"
-                alt="Fresh groceries"
+                src="https://images.unsplash.com/photo-1596797038530-2c107229654b?w=800&q=80"
+                alt="Bengali spices and terracotta"
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
@@ -64,7 +62,7 @@ export default function Hero() {
 
             {/* Floating badge */}
             <div className="absolute -bottom-4 -left-4 bg-white rounded-2xl shadow-xl px-5 py-3 flex items-center gap-3">
-              <div className="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center text-xl">🚚</div>
+              <div className="w-10 h-10 bg-orange-100 rounded-xl flex items-center justify-center text-xl">🚚</div>
               <div>
                 <p className="font-bold text-sm text-gray-900">Free Delivery</p>
                 <p className="text-xs text-gray-500">On orders above ৳500</p>

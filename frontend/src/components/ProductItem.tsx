@@ -19,10 +19,10 @@ export default function ProductItem({ id, image, name, price }) {
           />
         </div>
         <div className="p-3">
-          <h3 className="text-sm font-semibold text-gray-800 truncate group-hover:text-green-600 transition-colors duration-200 leading-tight">
+          <h3 className="text-sm font-semibold text-gray-800 truncate group-hover:text-orange-600 transition-colors duration-200 leading-tight">
             {name}
           </h3>
-          <p className="mt-1 text-base font-bold text-green-600">
+          <p className="mt-1 text-base font-bold text-orange-600">
             {currency}{price}
           </p>
         </div>
@@ -30,7 +30,7 @@ export default function ProductItem({ id, image, name, price }) {
       <div className="px-3 pb-3">
         <button
           onClick={() => addToCart(id, "1")}
-          className="w-full py-2 text-xs font-semibold text-green-600 border border-green-200 rounded-lg hover:bg-green-600 hover:text-white hover:border-green-600 transition-all duration-200"
+          className="w-full py-2 text-xs font-semibold text-orange-600 border border-orange-200 rounded-lg hover:bg-orange-600 hover:text-white hover:border-orange-600 transition-all duration-200"
         >
           + Add to Cart
         </button>

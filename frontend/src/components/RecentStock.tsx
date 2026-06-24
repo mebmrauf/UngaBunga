@@ -29,10 +29,10 @@ export default function RecentStock() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between mb-8">
           <div>
-            <p className="section-subtitle">Just Arrived</p>
-            <h2 className="section-title">New In Stock</h2>
+            <p className="section-subtitle">Fresh From Farm</p>
+            <h2 className="section-title">New Arrivials at Khabari</h2>
           </div>
-          <Link href="/collection" className="text-sm font-semibold text-green-600 hover:text-green-700 transition-colors hidden sm:block">
+          <Link href="/collection" className="text-sm font-semibold text-orange-600 hover:text-orange-700 transition-colors hidden sm:block">
             View all →
           </Link>
         </div>

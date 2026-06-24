@@ -6,7 +6,7 @@ export default function About() {
       {/* Hero */}
       <div className="text-center max-w-2xl mx-auto mb-16">
         <p className="section-subtitle">Our Story</p>
-        <h1 className="section-title mb-4">About Greenora</h1>
+        <h1 className="section-title mb-4">About Khabari</h1>
         <p className="text-gray-500 leading-relaxed">
           We're passionate about bringing fresh, quality groceries directly to your door. 
           Founded in Dhaka, we believe everyone deserves access to the finest produce at fair prices.
@@ -39,8 +39,8 @@ export default function About() {
               { value: "500+", label: "Products" },
               { value: "2hrs", label: "Avg Delivery" },
             ].map(stat => (
-              <div key={stat.label} className="bg-green-50 rounded-2xl p-4">
-                <p className="text-2xl font-extrabold text-green-600">{stat.value}</p>
+              <div key={stat.label} className="bg-orange-50 rounded-2xl p-4">
+                <p className="text-2xl font-extrabold text-orange-600">{stat.value}</p>
                 <p className="text-xs text-gray-500 mt-1">{stat.label}</p>
               </div>
             ))}
@@ -49,7 +49,7 @@ export default function About() {
       </div>
 
       {/* Values */}
-      <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-3xl p-10">
+      <div className="bg-gradient-to-br from-orange-50 to-emerald-50 rounded-3xl p-10">
         <h2 className="text-2xl font-bold text-gray-900 text-center mb-10">Our Values</h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
           {[

@@ -15,12 +15,12 @@ export default function BestSeller() {
   if (!bestSellers.length) return null;
 
   return (
-    <section className="py-12 bg-gradient-to-b from-green-50/50 to-white">
+    <section className="py-12 bg-gradient-to-b from-orange-50/50 to-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between mb-8">
           <div>
-            <p className="section-subtitle">🔥 Popular</p>
-            <h2 className="section-title">Best Sellers</h2>
+            <p className="section-subtitle">🔥 Popular in Gram</p>
+            <h2 className="section-title">Top Khabari Picks</h2>
           </div>
         </div>
 

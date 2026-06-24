@@ -40,8 +40,8 @@ export default function Dashboard() {
   }
 
   const statCards = [
-    { title: "Total Revenue", value: `${currency}${stats?.revenue || 0}`, icon: "💰", color: "bg-emerald-50 text-emerald-600 border-emerald-200" },
-    { title: "Total Orders", value: stats?.orders || 0, icon: "📦", color: "bg-green-50 text-green-600 border-green-200" },
+    { title: "Total Revenue", value: `${currency}${stats?.revenue || 0}`, icon: "💰", color: "bg-orange-50 text-emerald-600 border-emerald-200" },
+    { title: "Total Orders", value: stats?.orders || 0, icon: "📦", color: "bg-orange-50 text-orange-600 border-orange-200" },
     { title: "Total Products", value: stats?.products || 0, icon: "🛍️", color: "bg-purple-50 text-purple-600 border-purple-200" },
     { title: "Categories", value: stats?.categories || 0, icon: "📑", color: "bg-orange-50 text-orange-600 border-orange-200" },
     { title: "Sub-Categories", value: stats?.subCategories || 0, icon: "🔖", color: "bg-yellow-50 text-yellow-600 border-yellow-200" },
@@ -79,7 +79,7 @@ export default function Dashboard() {
           <h2 className="text-xl font-bold text-gray-800 mb-4 border-b pb-3">System Activity</h2>
           <div className="space-y-4">
             <div className="flex gap-4 items-center">
-              <div className="w-2 h-2 rounded-full bg-green-500"></div>
+              <div className="w-2 h-2 rounded-full bg-orange-500"></div>
               <p className="text-sm text-gray-600"><span className="font-semibold text-gray-800">Admin Login</span> successful</p>
               <span className="text-xs text-gray-400 ml-auto">Just now</span>
             </div>

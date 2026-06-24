@@ -3,15 +3,15 @@
 const policies = [
   {
     icon: "🌿",
-    title: "100% Fresh Guarantee",
-    desc: "Every product is quality-checked before delivery. Not fresh? Full refund, no questions asked.",
-    color: "bg-green-50 border-green-100",
-    iconBg: "bg-green-100",
+    title: "100% Deshi Sourcing",
+    desc: "Every product is sourced directly from local farmers and authentic deshi producers.",
+    color: "bg-orange-50 border-orange-100",
+    iconBg: "bg-orange-100",
   },
   {
     icon: "🚚",
-    title: "Fast Delivery",
-    desc: "Get your groceries delivered in as little as 2 hours. We cover all major areas.",
+    title: "Fast Local Delivery",
+    desc: "Get your daily bazaar delivered in as little as 2 hours anywhere in Dhaka.",
     color: "bg-blue-50 border-blue-100",
     iconBg: "bg-blue-100",
   },

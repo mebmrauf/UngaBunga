@@ -58,7 +58,7 @@ export default function Recipes() {
                 <h2 className="text-xl font-bold text-gray-900">{recipe.title}</h2>
                 <p className="text-sm text-gray-500">By {recipe.author?.name || 'Unknown'}</p>
               </div>
-              <span className={`px-3 py-1 rounded-full text-xs font-bold ${recipe.status === 'Approved' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'}`}>
+              <span className={`px-3 py-1 rounded-full text-xs font-bold ${recipe.status === 'Approved' ? 'bg-orange-100 text-orange-700' : 'bg-yellow-100 text-yellow-700'}`}>
                 {recipe.status}
               </span>
             </div>
@@ -67,7 +67,7 @@ export default function Recipes() {
               <div className="flex gap-3 mt-6">
                 <button 
                   onClick={() => updateStatus(recipe._id, 'Approved')}
-                  className="flex-1 bg-green-600 text-white py-2 rounded-xl font-bold hover:bg-green-700 transition"
+                  className="flex-1 bg-orange-600 text-white py-2 rounded-xl font-bold hover:bg-orange-700 transition"
                 >
                   Approve
                 </button>

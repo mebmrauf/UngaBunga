@@ -78,7 +78,7 @@ export default function Users() {
                     {user.role}
                   </span>
                 </td>
-                <td className="p-4 text-green-600 font-bold">{user.rewardPoints || 0}</td>
+                <td className="p-4 text-orange-600 font-bold">{user.rewardPoints || 0}</td>
                 <td className="p-4 flex gap-2">
                   <select 
                     value={user.role}

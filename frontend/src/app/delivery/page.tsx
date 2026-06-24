@@ -40,6 +40,37 @@ export default function DeliveryDashboard() {
     }
   };
 
+  const { socket } = useContext(ShopContext)!;
+  const [trackingOrder, setTrackingOrder] = useState<string | null>(null);
+
+  const startTracking = (task: any) => {
+    if (!navigator.geolocation) {
+      toast.error("Geolocation is not supported by your browser");
+      return;
+    }
+
+    setTrackingOrder(task._id);
+    toast.info("Started broadcasting location!");
+
+    navigator.geolocation.watchPosition((position) => {
+      if (socket) {
+        socket.emit("driverLocationUpdate", {
+          orderId: task._id,
+          userId: task.user._id,
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        });
+      }
+    }, (error) => {
+      console.error(error);
+      toast.error("Failed to get location");
+    }, {
+      enableHighAccuracy: true,
+      maximumAge: 10000,
+      timeout: 5000
+    });
+  };
+
   if (role !== "delivery") {
     return <div className="p-10 text-center">You don't have access to this page.</div>;
   }
@@ -56,23 +87,28 @@ export default function DeliveryDashboard() {
             <div>
               <div className="flex items-center gap-3 mb-2">
                 <span className="font-bold text-lg text-gray-900">{task._id}</span>
-                <span className={`px-2 py-1 rounded text-xs font-bold ${task.overallStatus === 'Delivered' ? 'bg-green-100 text-green-700' : 'bg-blue-100 text-blue-700'}`}>
+                <span className={`px-2 py-1 rounded text-xs font-bold ${task.overallStatus === 'Delivered' ? 'bg-orange-100 text-orange-700' : 'bg-blue-100 text-blue-700'}`}>
                   {task.overallStatus}
                 </span>
               </div>
               <p className="text-sm text-gray-600 font-medium">📍 Deliver to: <span className="text-gray-900">{task.user?.name} ({task.address})</span></p>
             </div>
             
-            <div className="flex gap-2 w-full md:w-auto">
+            <div className="flex flex-col gap-2 w-full md:w-auto">
               {task.overallStatus === 'Order Placed' && (
-                <button onClick={() => updateStatus(task._id, 'Out for Delivery')} className="flex-1 md:flex-none bg-blue-600 text-white px-4 py-2 rounded-xl font-bold hover:bg-blue-700">
+                <button onClick={() => updateStatus(task._id, 'Out for Delivery')} className="w-full bg-blue-600 text-white px-4 py-2 rounded-xl font-bold hover:bg-blue-700">
                   Start Delivery
                 </button>
               )}
               {task.overallStatus === 'Out for Delivery' && (
-                <button onClick={() => updateStatus(task._id, 'Delivered')} className="flex-1 md:flex-none bg-green-600 text-white px-4 py-2 rounded-xl font-bold hover:bg-green-700">
-                  Mark Delivered
-                </button>
+                <>
+                  <button onClick={() => startTracking(task)} className={`w-full px-4 py-2 rounded-xl font-bold ${trackingOrder === task._id ? 'bg-orange-100 text-orange-700' : 'bg-purple-100 text-purple-700 hover:bg-purple-200'}`}>
+                    {trackingOrder === task._id ? '📡 Broadcasting...' : '📍 Broadcast Location'}
+                  </button>
+                  <button onClick={() => updateStatus(task._id, 'Delivered')} className="w-full bg-orange-600 text-white px-4 py-2 rounded-xl font-bold hover:bg-orange-700">
+                    Mark Delivered
+                  </button>
+                </>
               )}
             </div>
           </div>

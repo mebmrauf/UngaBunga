@@ -82,4 +82,40 @@ const adminLogin = asyncHandler(async (req, res) => {
     res.json({success: false, message: "Invalid Credentials"})
 });
 
-export {loginUser, registerUser, adminLogin};
+import notificationModel from "../models/notificationModel.js";
+
+// Route for getting user profile
+const getUserProfile = asyncHandler(async (req, res) => {
+    const user = await userModel.findById(req.user._id).select('-password');
+    if (!user) {
+        return res.status(404).json({ success: false, message: "User not found" });
+    }
+    res.json({ success: true, user });
+});
+
+// Route for updating user profile
+const updateUserProfile = asyncHandler(async (req, res) => {
+    const { preferences } = req.body;
+    
+    const user = await userModel.findByIdAndUpdate(
+        req.user._id,
+        { preferences },
+        { new: true }
+    ).select('-password');
+
+    res.json({ success: true, message: "Profile updated successfully", user });
+});
+
+// Route for getting user notifications
+const getNotifications = asyncHandler(async (req, res) => {
+    const notifications = await notificationModel.find({ user: req.user._id }).sort({ createdAt: -1 });
+    res.json({ success: true, notifications });
+});
+
+// Route for marking notifications as read
+const markNotificationsRead = asyncHandler(async (req, res) => {
+    await notificationModel.updateMany({ user: req.user._id, isRead: false }, { isRead: true });
+    res.json({ success: true, message: "Notifications marked as read" });
+});
+
+export {loginUser, registerUser, adminLogin, getUserProfile, updateUserProfile, getNotifications, markNotificationsRead};
