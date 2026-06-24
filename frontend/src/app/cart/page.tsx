@@ -1,135 +1,121 @@
 "use client";
-import { useContext } from "react";
+import { useState, useEffect, useContext } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { ShopContext } from "../../context/ShopContext";
 
+export default function GroceryList() {
+  const router = useRouter();
+  const [items, setItems] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [cartId, setCartId] = useState<string | null>(null);
 
-export default function Cart() {
-  const { products, cartItems, currency, delivery_fee, removeFromCart, updateCartItem, getCartTotal, navigate } = useContext(ShopContext)!;
+  const { token, backendUrl } = useContext(ShopContext)!;
 
-  const cartEntries = Object.entries(cartItems).flatMap(([itemId, quantities]) =>
-    Object.entries(quantities).map(([qty, count]) => {
-      const product = products.find((p: any) => p._id === itemId);
-      return product ? { product, qty, count, itemId } : null;
-    }).filter(Boolean)
-  ) as { product: any; qty: string; count: number; itemId: string }[];
+  useEffect(() => {
+    if (!token) return;
+    const fetchCart = async () => {
+      try {
+        const res = await axios.get(`${backendUrl}/api/cart/my-cart`, { headers: { token } });
+        if (res.data.success && res.data.cart) {
+          setCartId(res.data.cart._id);
+          // Add checked: false to items locally if not present in schema
+          const fetchedItems = res.data.cart.items.map((i: any) => ({ ...i, checked: false }));
+          setItems(fetchedItems);
+        }
+      } catch (err) {
+        console.error("Failed to fetch cart", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchCart();
+  }, [token, backendUrl]);
 
-  const subtotal = getCartTotal();
-  const total = subtotal + (cartEntries.length > 0 ? delivery_fee : 0);
+  const toggleCheck = (index: number) => {
+    const newItems = [...items];
+    newItems[index].checked = !newItems[index].checked;
+    setItems(newItems);
+  };
 
-  if (cartEntries.length === 0) {
-    return (
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
-        <div className="text-7xl mb-6">🛒</div>
-        <h2 className="text-2xl font-bold text-gray-900 mb-3">Your cart is empty</h2>
-        <p className="text-gray-500 mb-8">Looks like you haven't added any items yet.</p>
-        <Link href="/collection" className="btn-primary inline-block">
-          Start Shopping →
-        </Link>
-      </div>
-    );
-  }
+  const calculateTotal = () => {
+    return items.filter(i => !i.checked).reduce((acc, curr) => acc + curr.priceEstimate, 0);
+  };
+
+  const handlePlaceOrder = async () => {
+    try {
+      const res = await axios.post(`${backendUrl}/api/order/place`, {
+        cartId,
+        address: "123 Default St, Dhaka" // Using default since we didn't build address form yet
+      }, { headers: { token } });
+
+      if (res.data.success) {
+        toast.success("Order Placed Successfully via COD!");
+        router.push("/orders");
+      } else {
+        toast.error(res.data.message);
+      }
+    } catch (err) {
+      toast.error("Failed to place order");
+    }
+  };
+
+  if (loading) return <div className="text-center p-10 font-medium text-gray-500">Loading Grocery List...</div>;
+  if (items.length === 0) return <div className="text-center p-10 font-medium text-gray-500">Your cart is empty. Go generate a grocery list from your planner!</div>;
+
+  const total = calculateTotal();
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div className="max-w-4xl mx-auto px-4 py-8">
       <div className="mb-8">
-        <h1 className="section-title">Shopping Cart</h1>
-        <p className="text-sm text-gray-500 mt-1">{cartEntries.length} item{cartEntries.length !== 1 ? "s" : ""}</p>
+        <h1 className="text-3xl font-bold text-gray-900">Your Grocery List</h1>
+        <p className="text-gray-500 font-medium">Generated from your weekly meal plan.</p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Cart Items */}
-        <div className="lg:col-span-2 space-y-4">
-          {cartEntries.map(({ product, qty, count, itemId }, i) => (
-            <div key={`${itemId}-${qty}`} className="bg-white rounded-2xl border border-gray-100 p-5 flex gap-4 items-start shadow-sm animate-fade-in" style={{ animationDelay: `${i * 0.05}s` }}>
-              {/* Image */}
-              <Link href={`/product/${itemId}`} className="flex-shrink-0">
-                <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-xl overflow-hidden bg-gray-50 border border-gray-100">
-                  <img
-                    src={Array.isArray(product.image) ? product.image[0] : product.image}
-                    alt={product.name}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              </Link>
-
-              {/* Details */}
-              <div className="flex-1 min-w-0">
-                <Link href={`/product/${itemId}`}>
-                  <h3 className="font-semibold text-gray-900 text-sm sm:text-base truncate hover:text-green-600 transition-colors">{product.name}</h3>
-                </Link>
-                <p className="text-xs text-gray-500 mt-0.5">Unit: <span className="font-medium text-gray-700">{qty}</span></p>
-                <p className="text-base font-bold text-green-600 mt-1">{currency}{product.price * count}</p>
-
-                <div className="flex items-center gap-3 mt-3">
-                  {/* Quantity control */}
-                  <div className="flex items-center gap-1.5 bg-gray-50 rounded-xl border border-gray-200 p-0.5">
-                    <button
-                      className="qty-btn w-7 h-7 text-base"
-                      onClick={() => updateCartItem(itemId, qty, count - 1)}
-                    >−</button>
-                    <span className="w-7 text-center font-semibold text-gray-800 text-sm">{count}</span>
-                    <button
-                      className="qty-btn w-7 h-7 text-base"
-                      onClick={() => updateCartItem(itemId, qty, count + 1)}
-                    >+</button>
-                  </div>
-
-                  {/* Remove */}
-                  <button
-                    onClick={() => removeFromCart(itemId, qty)}
-                    className="text-xs text-red-400 hover:text-red-600 flex items-center gap-1 transition-colors ml-2"
-                  >
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                    </svg>
-                    Remove
-                  </button>
+      <div className="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden mb-8">
+        <div className="bg-slate-50 px-6 py-4 border-b border-slate-200 flex justify-between items-center">
+          <span className="font-bold text-slate-700">Items to buy</span>
+          <span className="text-sm font-medium text-slate-500">Uncheck items you already have at home</span>
+        </div>
+        
+        <div className="divide-y divide-slate-100">
+          {items.map((item, idx) => (
+            <div key={item.id} className={`px-6 py-4 flex items-center justify-between transition ${item.checked ? 'opacity-50 bg-slate-50' : 'hover:bg-green-50'}`}>
+              <div className="flex items-center gap-4">
+                <input 
+                  type="checkbox" 
+                  checked={!item.checked} 
+                  onChange={() => toggleCheck(idx)}
+                  className="w-6 h-6 rounded-md text-green-600 focus:ring-green-500 cursor-pointer accent-green-600"
+                />
+                <div>
+                  <h3 className={`font-bold text-lg ${item.checked ? 'text-slate-500 line-through' : 'text-gray-900'}`}>{item.name}</h3>
+                  <p className="text-sm text-gray-500 font-medium">{item.totalQuantity} {item.unit}</p>
                 </div>
               </div>
-
-              {/* Price (desktop) */}
-              <div className="hidden sm:block text-right flex-shrink-0">
-                <p className="text-sm text-gray-500">{currency}{product.price} × {count}</p>
-                <p className="text-lg font-bold text-gray-900">{currency}{product.price * count}</p>
+              <div className="text-right">
+                <p className={`font-bold text-lg ${item.checked ? 'text-slate-400' : 'text-green-600'}`}>৳{item.priceEstimate}</p>
+                <p className="text-xs text-gray-400">Est. price</p>
               </div>
             </div>
           ))}
         </div>
+      </div>
 
-        {/* Order Summary */}
-        <div className="lg:col-span-1">
-          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 sticky top-20">
-            <h3 className="font-bold text-gray-900 text-lg mb-5">Order Summary</h3>
-
-            <div className="space-y-3 text-sm">
-              <div className="flex justify-between text-gray-600">
-                <span>Subtotal ({cartEntries.length} items)</span>
-                <span className="font-medium text-gray-900">{currency}{subtotal}</span>
-              </div>
-              <div className="flex justify-between text-gray-600">
-                <span>Delivery fee</span>
-                <span className="font-medium text-gray-900">{currency}{delivery_fee}</span>
-              </div>
-              <hr className="border-gray-100" />
-              <div className="flex justify-between text-base font-bold text-gray-900">
-                <span>Total</span>
-                <span className="text-green-600 text-xl">{currency}{total}</span>
-              </div>
-            </div>
-
-            <button
-              onClick={() => navigate.push("/place-order")}
-              className="btn-primary w-full mt-6 text-center"
-            >
-              Proceed to Checkout →
-            </button>
-
-            <Link href="/collection" className="block text-center text-sm text-gray-500 hover:text-green-600 transition-colors mt-4">
-              ← Continue Shopping
-            </Link>
-          </div>
+      <div className="bg-green-50 rounded-3xl p-6 border border-green-100 flex flex-col md:flex-row justify-between items-center gap-6">
+        <div>
+          <h3 className="text-lg font-bold text-gray-800">Total Estimate: <span className="text-2xl text-green-600">৳{total}</span></h3>
+          <p className="text-sm text-green-700 font-medium">+ Delivery & Service Fees will apply</p>
         </div>
+        <button 
+          onClick={handlePlaceOrder}
+          disabled={total === 0}
+          className="w-full md:w-auto bg-green-600 text-white px-8 py-3.5 rounded-full font-bold text-lg shadow-md hover:bg-green-700 transition disabled:opacity-50"
+        >
+          Checkout Items
+        </button>
       </div>
     </div>
   );

@@ -8,7 +8,7 @@ import Link from "next/link";
 
 export default function Login() {
   const [mode, setMode] = useState<"login" | "signup">("login");
-  const { token, settoken, navigate } = useContext(ShopContext)!;
+  const { token, setToken, navigate } = useContext(ShopContext)!;
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -27,8 +27,10 @@ export default function Login() {
       const payload = mode === "signup" ? { name, email, password } : { email, password };
       const res = await axiosInstance.post(endpoint, payload);
       if (res.data.success) {
-        settoken(res.data.token);
+        setToken(res.data.token);
+        setRole(res.data.role || "user");
         localStorage.setItem("token", res.data.token);
+        localStorage.setItem("role", res.data.role || "user");
         toast.success(mode === "signup" ? "Account created! Welcome 🎉" : "Welcome back! 👋");
       } else {
         toast.error(res.data.message || "Something went wrong");

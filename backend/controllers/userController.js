@@ -22,7 +22,7 @@ const loginUser = asyncHandler(async (req, res) => {
 
     if (isMatch) {
         const token = createToken(user._id);
-        res.json({success: true, token});
+        res.json({success: true, token, role: user.role});
     } else {
         res.json({success: false, message: "Invalid Credentials"});
     }
@@ -50,13 +50,13 @@ const registerUser = asyncHandler(async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    const newUser = new userModel({name, email, password:hashedPassword})
+    const newUser = new userModel({name, email, password:hashedPassword, role: 'user'})
 
     const user = await newUser.save();
 
     const token = createToken(user._id);
 
-    res.json({success: true, token})
+    res.json({success: true, token, role: user.role})
 });
 
 // Route for admin login

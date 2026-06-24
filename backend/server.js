@@ -6,8 +6,11 @@ import 'dotenv/config';
 import connectDB from "./config/mongodb.js";
 import connectCloudinary from "./config/cloudinary.js";
 import userRouter from "./routes/userRoute.js";
-import productRouter from "./routes/productRoute.js";
-import categoryRouter from "./routes/categoryRoute.js";
+import recipeRouter from "./routes/recipeRoute.js";
+import plannerRouter from "./routes/plannerRoute.js";
+import cartRouter from "./routes/cartRoute.js";
+import shopkeeperRouter from "./routes/shopkeeperRoute.js";
+import aiRouter from "./routes/aiRoute.js";
 import orderRouter from "./routes/orderRoute.js";
 import adminRouter from "./routes/adminRoute.js";
 import errorHandler from "./middleware/errorHandler.js";
@@ -37,8 +40,11 @@ app.use(cors({
 
 // Api end points
 app.use('/api/user', userRouter);
-app.use('/api/product', productRouter);
-app.use('/api/category', categoryRouter);
+app.use('/api/recipe', recipeRouter);
+app.use('/api/planner', plannerRouter);
+app.use('/api/cart', cartRouter);
+app.use('/api/shopkeeper', shopkeeperRouter);
+app.use('/api/ai', aiRouter);
 app.use('/api/order', orderRouter);
 app.use('/api/admin', adminRouter);
 

@@ -1,29 +1,46 @@
-import productModel from "../models/productModel.js";
-import categoryModel from "../models/categoryModel.js";
 import userModel from "../models/userModel.js";
 import orderModel from "../models/orderModel.js";
+import recipeModel from "../models/recipeModel.js";
+import storeModel from "../models/storeModel.js";
 import asyncHandler from "../utils/asyncHandler.js";
 
 const dashboardStats = asyncHandler(async (req, res) => {
-    const totalProducts = await productModel.countDocuments({});
-    const totalCategories = await categoryModel.countDocuments({});
     const totalUsers = await userModel.countDocuments({});
     const totalOrders = await orderModel.countDocuments({});
-
-    // Optional: Calculate total revenue
-    const orders = await orderModel.find({ payment: true });
-    const totalRevenue = orders.reduce((acc, order) => acc + order.amount, 0);
+    const totalRecipes = await recipeModel.countDocuments({});
+    const totalStores = await storeModel.countDocuments({});
 
     res.json({
         success: true,
         stats: {
-            products: totalProducts,
-            categories: totalCategories,
             users: totalUsers,
             orders: totalOrders,
-            revenue: totalRevenue
+            recipes: totalRecipes,
+            stores: totalStores
         }
     });
 });
 
-export { dashboardStats };
+const getUsers = asyncHandler(async (req, res) => {
+    const users = await userModel.find({}).select('-password').sort({ createdAt: -1 });
+    res.json({ success: true, users });
+});
+
+const updateUserRole = asyncHandler(async (req, res) => {
+    const { userId, role } = req.body;
+    await userModel.findByIdAndUpdate(userId, { role });
+    res.json({ success: true, message: "User role updated" });
+});
+
+const getAllRecipes = asyncHandler(async (req, res) => {
+    const recipes = await recipeModel.find({}).populate('author', 'name').sort({ createdAt: -1 });
+    res.json({ success: true, recipes });
+});
+
+const updateRecipeStatus = asyncHandler(async (req, res) => {
+    const { recipeId, status } = req.body;
+    await recipeModel.findByIdAndUpdate(recipeId, { status });
+    res.json({ success: true, message: "Recipe status updated" });
+});
+
+export { dashboardStats, getUsers, updateUserRole, getAllRecipes, updateRecipeStatus };
