@@ -5,6 +5,8 @@ import {Route, Routes} from "react-router-dom";
 import Add from "./pages/Add.jsx";
 import List from "./pages/List.jsx";
 import Orders from "./pages/Orders.jsx";
+import Categories from "./pages/Categories.jsx";
+import Dashboard from "./pages/Dashboard.jsx";
 import {useEffect, useState} from "react";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -20,7 +22,7 @@ const App = () => {
     },[token]);
 
     return (
-        <div className='bg-white min-h-screen'>
+        <div className='bg-slate-50 min-h-screen text-slate-700 font-sans'>
             <ToastContainer />
             {
                 token === ''
@@ -28,14 +30,15 @@ const App = () => {
                 :
                     <>
                         <Navbar settoken={settoken} />
-                        <hr/>
-                        <div className='flex w-full'>
+                        <div className='flex w-full px-4 sm:px-8'>
                             <Sidebar />
-                            <div className='w-[70%] mx-auto ml-6 sm:ml-8 md:ml-[25px] lg:ml-[5vw] my-8 text-gray-600 text-base'>
+                            <div className='w-full ml-4 md:ml-8 lg:ml-10 max-w-7xl pb-10'>
                                 <Routes>
+                                    <Route path='/' element={<Dashboard token={token} />}/>
                                     <Route path='/add' element={<Add token={token} />}/>
                                     <Route path='/list' element={<List token={token} />}/>
                                     <Route path='/orders' element={<Orders token={token} />}/>
+                                    <Route path='/categories' element={<Categories token={token} />}/>
                                 </Routes>
                             </div>
                         </div>

@@ -1,18 +1,47 @@
-@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap');@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-*{
-    font-family: 'LibreBaskerville', serif;
+* {
+    font-family: 'Inter', sans-serif;
 }
 
-select, input, textarea{
-    border:1px solid #c2c2c2;
-    outline-color: #949494;
+body {
+    background-color: #f8fafc; /* slate-50 */
+    color: #334155; /* slate-700 */
+}
+
+/* Base Form Styling */
+input, select, textarea {
+    @apply border border-gray-200 rounded-lg px-4 py-2 bg-gray-50 focus:bg-white transition-all duration-200 outline-none;
+}
+input:focus, select:focus, textarea:focus {
+    @apply border-blue-500 ring-2 ring-blue-100;
+}
+
+/* Glassmorphism Utilities */
+.glass {
+    @apply bg-white bg-opacity-80 backdrop-blur-md border border-white border-opacity-40 shadow-sm rounded-2xl;
+}
+
+/* Sidebar Active Link styling */
+.nav-active {
+    @apply bg-blue-50 text-blue-600 border-r-4 border-blue-600 font-medium;
+}
+
+/* Custom Scrollbar for a sleek look */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
     border-radius: 4px;
 }
-
-.active {
-    background-color: #949494;
+::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
 }

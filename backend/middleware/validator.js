@@ -34,3 +34,13 @@ export const productSchema = z.object({
     bestseller: z.string().optional(),
     quantity: z.string().optional(),
 });
+
+export const categorySchema = z.object({
+    id: z.string().optional(),
+    name: z.string().min(1, "Category name is required"),
+    value: z.string().min(1, "Category value is required"),
+    subCategories: z.array(z.object({
+        name: z.string(),
+        value: z.string()
+    })).optional()
+});

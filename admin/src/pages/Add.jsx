@@ -1,7 +1,8 @@
 import {assets} from "../assets/assets.js";
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import axiosInstance from "../utils/axiosInstance.js";
 import {toast} from "react-toastify";
+import { useQuery } from "@tanstack/react-query";
 
 const Add = () => {
 
@@ -13,10 +14,31 @@ const Add = () => {
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
     const [price, setPrice] = useState("");
-    const [category, setCategory] = useState("fresh_produce");
-    const [subCategory, setSubCategory] = useState("fruits");
+    const [category, setCategory] = useState("");
+    const [subCategory, setSubCategory] = useState("");
     const [bestseller, setbestseller] = useState(false);
     const [quantity, setQuantity] = useState([]);
+
+    const { data: categories = [], isLoading, isError, error } = useQuery({
+        queryKey: ['categories'],
+        queryFn: async () => {
+            const response = await axiosInstance.get('/api/category/list');
+            if (response.data.success) {
+                return response.data.categories;
+            } else {
+                throw new Error(response.data.message);
+            }
+        }
+    });
+
+    useEffect(() => {
+        if (categories.length > 0 && !category) {
+            setCategory(categories[0].value);
+            if (categories[0].subCategories && categories[0].subCategories.length > 0) {
+                setSubCategory(categories[0].subCategories[0].value);
+            }
+        }
+    }, [categories, category]);
 
     const onSubmitHandler = async (e) => {
         e.preventDefault();
@@ -59,11 +81,18 @@ const Add = () => {
         }
     }
 
+    if (isLoading) return <p>Loading...</p>;
+    if (isError) toast.error(error.message);
+
+    const currentCat = categories.find(c => c.value === category);
+
     return (
-        <div>
-            <form onSubmit={onSubmitHandler} className='flex flex-col w-full items-start gap-3'>
+        <div className="animate-fade-in w-full">
+            <h1 className="text-2xl font-bold text-gray-800 mb-6">Add New Product</h1>
+            <div className="glass p-8">
+            <form onSubmit={onSubmitHandler} className='flex flex-col w-full items-start gap-5'>
                 <div>
-                    <p className='mb-2'>Upload Image</p>
+                    <p className='mb-2 font-medium text-gray-700'>Upload Image</p>
                 </div>
 
                 <div className='flex gap-2'>
@@ -99,34 +128,30 @@ const Add = () => {
                 <div className='flex flex-col sm:flex-row gap-2 w-full sm:gap-8'>
                     <div>
                         <p className='mb-2'>Product Category</p>
-                        <select onChange={(e) => setCategory(e.target.value)} className='w-full px-3 py-2'>
-                            <option value='fresh_produce'>Fresh Produce</option>
-                            <option value='dairy_eggs'>Dairy & Eggs</option>
-                            <option value='meat_seafood'>Meat & Seafood</option>
-                            <option value='pantry_staples'>Pantry Staples</option>
-                            <option value='beverages'>Beverages</option>
-                            <option value='snacks'>Snacks</option>
+                        <select onChange={(e) => {
+                            setCategory(e.target.value);
+                            const selectedCat = categories.find(c => c.value === e.target.value);
+                            if (selectedCat && selectedCat.subCategories && selectedCat.subCategories.length > 0) {
+                                setSubCategory(selectedCat.subCategories[0].value);
+                            } else {
+                                setSubCategory("");
+                            }
+                        }} value={category} className='w-full px-3 py-2'>
+                            {categories.map((c, i) => (
+                                <option key={i} value={c.value}>{c.name}</option>
+                            ))}
                         </select>
                     </div>
 
                     <div>
-                        <p>Product Sub-Category</p>
-                        <select onChange={(e) => setSubCategory(e.target.value)} className='w-full px-3 py-2'>
-                            <option value='fruits'>Fruits</option>
-                            <option value='vegetables'>Vegetables</option>
-                            <option value='dairy_products'>Dairy Products</option>
-                            <option value='eggs'>Eggs</option>
-                            <option value='meat'>Meat</option>
-                            <option value='Seafood'>Seafood</option>
-                            <option value='rice'>Rice</option>
-                            <option value='flour_baking'>Flour and Baking Supplies</option>
-                            <option value='pasta_noodles'>Pasta & Noodles</option>
-                            <option value='oils'>Oils</option>
-                            <option value='tea_coffee'>Tea & Coffee</option>
-                            <option value='jucies'>Jucies</option>
-                            <option value='soft_drinks'>Soft Drinks</option>
-                            <option value='chips'>Chips</option>
-                            <option value='cookies'>Cookies</option>
+                        <p className='mb-2'>Product Sub-Category</p>
+                        <select onChange={(e) => setSubCategory(e.target.value)} value={subCategory} className='w-full px-3 py-2'>
+                            {currentCat && currentCat.subCategories && currentCat.subCategories.map((sub, i) => (
+                                <option key={i} value={sub.value}>{sub.name}</option>
+                            ))}
+                            {(!currentCat || !currentCat.subCategories || currentCat.subCategories.length === 0) && (
+                                <option value="">No sub-categories</option>
+                            )}
                         </select>
                     </div>
 
@@ -138,7 +163,7 @@ const Add = () => {
 
                 <div>
                     <p className='mb-2'>Product quantity</p>
-                    <div className='flex gap-3'>
+                    <div className='flex flex-wrap gap-3'>
                         {/*KG*/}
                         <div
                             onClick={() => setQuantity((prev) => prev.includes('1/2KG') ? prev.filter((item) => item !== '1/2KG') : [...prev, '1/2KG'])}>
@@ -183,14 +208,15 @@ const Add = () => {
                     </div>
                 </div>
 
-                <div className='flex gap-2 mt-2'>
+                <div className='flex gap-2 mt-4 items-center'>
                     <input onChange={() => setbestseller((prev) => !prev)} checked={bestseller} type='checkbox'
-                           id='bestseller'/>
-                    <label className='cursor-pointer' htmlFor='bestseller'>Add to bestseller</label>
+                           id='bestseller' className="w-5 h-5 cursor-pointer accent-blue-600"/>
+                    <label className='cursor-pointer font-medium text-gray-700' htmlFor='bestseller'>Add to bestseller</label>
                 </div>
 
-                <button type='submit' className='w-28 py-3 mt-4 bg-black text-white'>ADD</button>
+                <button type='submit' className='w-40 py-3 mt-4 bg-gray-900 hover:bg-gray-800 text-white font-medium rounded-lg shadow-md transition-colors cursor-pointer'>ADD PRODUCT</button>
             </form>
+            </div>
         </div>
     )
 }
