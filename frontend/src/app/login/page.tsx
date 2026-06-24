@@ -52,7 +52,7 @@ export default function Login() {
             </div>
             <h1 className="text-2xl font-bold">{mode === "login" ? "Welcome back!" : "Create account"}</h1>
             <p className="text-green-100 text-sm mt-1">
-              {mode === "login" ? "Sign in to your UngaBunga account" : "Join UngaBunga today"}
+              {mode === "login" ? "Sign in to your Greenora account" : "Join Greenora today"}
             </p>
           </div>
 

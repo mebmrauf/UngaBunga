@@ -6,7 +6,7 @@ export default function About() {
       {/* Hero */}
       <div className="text-center max-w-2xl mx-auto mb-16">
         <p className="section-subtitle">Our Story</p>
-        <h1 className="section-title mb-4">About UngaBunga</h1>
+        <h1 className="section-title mb-4">About Greenora</h1>
         <p className="text-gray-500 leading-relaxed">
           We're passionate about bringing fresh, quality groceries directly to your door. 
           Founded in Dhaka, we believe everyone deserves access to the finest produce at fair prices.

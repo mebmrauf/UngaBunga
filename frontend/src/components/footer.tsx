@@ -10,10 +10,10 @@ export default function Footer() {
           <div className="lg:col-span-2">
             <div className="flex items-center gap-2 mb-4">
               <div className="w-8 h-8 bg-green-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-black text-sm">U</span>
+                <span className="text-white font-black text-sm">G</span>
               </div>
               <span className="font-bold text-xl text-white">
-                Unga<span className="text-green-400">Bunga</span>
+                Green<span className="text-green-400">ora</span>
               </span>
             </div>
             <p className="text-sm leading-relaxed max-w-sm">
@@ -72,7 +72,7 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-gray-800 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
-          <p>© 2026 UngaBunga. All rights reserved.</p>
+          <p>© 2026 Greenora. All rights reserved.</p>
           <div className="flex gap-6">
             <a href="#" className="hover:text-green-400 transition-colors">Privacy Policy</a>
             <a href="#" className="hover:text-green-400 transition-colors">Terms of Service</a>
